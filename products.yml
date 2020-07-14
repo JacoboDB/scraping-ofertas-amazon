@@ -1,0 +1,18 @@
+products:
+    css: div.s-expand-height.s-include-content-margin.s-border-bottom.s-latency-cf-section
+    multiple: true
+    type: Text
+    children:
+        name:
+            css: div.a-section.a-spacing-none.a-spacing-top-small h2 span
+            type: Text
+        link:
+            css: div.a-section.a-spacing-none.a-spacing-top-small h2 a
+            type: Attribute
+            attribute: href
+        price:
+            css: div.a-section.a-spacing-none.a-spacing-top-small a.a-size-base.a-link-normal.s-no-hover.a-text-normal > span.a-price > span.a-offscreen
+            type: Text
+        regular-price:
+            css: div.a-section.a-spacing-none.a-spacing-top-small a.a-size-base.a-link-normal.s-no-hover.a-text-normal > span.a-text-price > span.a-offscreen
+            type: Text
