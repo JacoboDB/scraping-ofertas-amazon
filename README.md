@@ -8,10 +8,18 @@ Script para buscar descuentos de un producto en amazon
 
 ### Usage
 Creamos el entorno virtual:
-```virtualenv venv ```
+```
+virtualenv venv
+```
 Activacion del entorno virtual:
-```.\venv\Scripts\activate```
+```
+.\venv\Scripts\activate
+```
 Instalación de dependencias:
-```pip install - r requirements.txt```
+```
+pip install - r requirements.txt
+```
 Uso:
-```py script.py 'libro python' 20```
+```
+py script.py 'libro python' 20
+```
