@@ -10,7 +10,7 @@ HEADERS = {
             'cache-control': 'no-cache',
             'dnt': '1',
             'upgrade-insecure-requests': '1',
-            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36',
+            'User-Agent': 'Safari/537.36',
             'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
             'sec-fetch-site': 'none',
             'sec-fetch-mode': 'navigate',
@@ -32,12 +32,12 @@ def process_search(scrapper):
     search = sys.argv[1]
     discount = int(sys.argv[2])
     print(f'Buscando {search} con descuento de {discount}% ...')
-    retry = True
     retries = 0
     url = AMAZON_SEARCH_URL + search.replace(' ','+')
-    data = scrapper.scrape(url, HEADERS)
-    while retry and retries < 5:
-        retries = examine_data(data, retries)
+    print(url)
+    while retries < 5:
+        data = scrapper.scrape(url, HEADERS)
+        retries = examine_data(data, retries, discount)
     if (retries == 5):
         print(f'No se encontraron datos para la busqueda {search} después de {retries} reintentos')
 
@@ -54,19 +54,17 @@ def print_product(product, price, regular, discount, percentage):
     print(f'Precio actual: {price}')
     print(f'Precio regular: {regular}')
     print(f'Descuento: ${discount:.0f} ({percentage:.0f}%)')
-    print('-------------------------------------------------------------------')
 
-def examine_data(data, retries):
+def examine_data(data, retries, discount_search):
     if data and data['products']:
-        retry = False
+        retries = 999
         for product in data['products']:
             if (product['regular-price'] and product['price']):
                 regular = float(str(product['regular-price']).replace('$', '').replace(',', ''))
                 price = float(str(product['price']).replace('$', '').replace(',', ''))
                 discount = regular - price
                 percentage = discount * 100 / regular
-                print(f'{product["name"]} {percentage:.0f}%)')
-                if (percentage >= discount):
+                if (percentage >= discount_search):
                     print_product(product, price, regular, discount, percentage)
     else:
         retries += 1
